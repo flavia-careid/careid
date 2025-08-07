@@ -1,21 +1,288 @@
-
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
-  <meta charset="UTF-8">
-  <title>CareID - Seus dados de saúde sempre com você</title>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>CareID – TAG de Emergência</title>
   <style>
-    body { font-family: sans-serif; background: #f0fff0; color: #2d4033; padding: 2em; text-align: center; }
-    h1 { color: #3ba36a; }
-    .btn { padding: 10px 20px; margin: 10px; font-size: 1.1em; background: #3ba36a; color: white; border: none; border-radius: 5px; cursor: pointer; }
-    .btn:hover { background: #2d8057; }
+    :root{
+      --green:#2fa36a;
+      --green-dark:#268b59;
+      --bg:#f4fff6;
+      --ink:#1f2e25;
+      --muted:#5f7a6a;
+      --card:#ffffff;
+    }
+    *{box-sizing:border-box}
+    html,body{margin:0;padding:0;background:var(--bg);color:var(--ink);font-family:system-ui,-apple-system,Segoe UI,Roboto,Helvetica,Arial,sans-serif}
+    header{background:var(--green);color:#fff;padding:18px 16px;text-align:center;position:sticky;top:0;z-index:10}
+    header h1{margin:0;font-size:1.4rem;letter-spacing:.3px}
+    header p{margin:6px 0 0 0;font-size:.95rem;opacity:.95}
+    main{max-width:720px;margin:18px auto;padding:0 14px}
+    .card{background:var(--card);border-radius:14px;box-shadow:0 6px 18px rgba(0,0,0,.06);padding:16px;margin:14px 0}
+    h2{font-size:1.15rem;margin:0 0 8px}
+    .grid{display:grid;grid-template-columns:1fr;gap:10px}
+    label{font-size:.95rem;color:var(--muted);display:block;margin-bottom:4px}
+    input,textarea,select,button{width:100%;font-size:1.05rem;padding:12px 12px;border:1px solid #dfe7e2;border-radius:10px;outline:none}
+    textarea{min-height:96px;resize:vertical}
+    button{background:var(--green);color:#fff;border:none;font-weight:600;cursor:pointer}
+    button:hover{background:var(--green-dark)}
+    .row{display:flex;gap:10px;flex-wrap:wrap}
+    .row > *{flex:1 1 220px}
+    .muted{color:var(--muted);font-size:.92rem}
+    .actions{display:flex;gap:10px;flex-wrap:wrap;margin-top:10px}
+    .btn-secondary{background:#e7f6ee;color:#15553a;border:1px solid #cfeadf}
+    .btn-danger{background:#ffebe9;color:#8a1e14;border:1px solid #ffd1cc}
+    .tag{border:1px dashed var(--green);padding:12px;border-radius:10px;background:#f7fff9}
+    .big{font-size:1.15rem}
+    .center{text-align:center}
+    .hide{display:none}
+    .link{color:var(--green-dark);text-decoration:underline;cursor:pointer}
+    .footer-space{height:30px}
+    /* mobile tweaks */
+    @media (max-width:480px){
+      header h1{font-size:1.25rem}
+      header p{font-size:.9rem}
+      input,textarea,select,button{font-size:1.05rem}
+      .big{font-size:1.1rem}
+    }
   </style>
 </head>
 <body>
-  <h1>CareID</h1>
-  <p><em>Seus dados de saúde sempre com você</em></p>
-  <button class="btn" onclick="alert('Formulário em construção')">Preencher meus dados</button>
-  <button class="btn" onclick="alert('Consulta em breve')">Acessar meus dados</button>
-  <button class="btn" onclick="alert('TAG de Emergência')">Ver meu TAG de Emergência</button>
+  <header>
+    <h1>CareID</h1>
+    <p>Seus dados de saúde sempre com você</p>
+  </header>
+
+  <main>
+    <!-- HOME -->
+    <section id="home" class="card">
+      <h2 class="big">O que você deseja fazer?</h2>
+      <div class="actions">
+        <button onclick="go('form')">Preencher meus dados (TAG de Emergência)</button>
+        <button class="btn-secondary" onclick="go('access')">Acessar meus dados</button>
+        <button class="btn-secondary" onclick="go('about')">Sobre a TAG</button>
+      </div>
+      <p class="muted">Dica: você pode criar um identificador fácil (ex.: <b>flavialeticia170382</b>) e usá‑lo depois para acessar seus dados sem senha.</p>
+    </section>
+
+    <!-- FORM -->
+    <section id="form" class="card hide">
+      <h2>Preencher meus dados – TAG de Emergência</h2>
+      <div class="grid">
+        <div>
+          <label for="nome">Nome completo</label>
+          <input id="nome" placeholder="Ex.: Flavia Leticia Adão de Araújo" />
+        </div>
+        <div class="row">
+          <div>
+            <label for="nasc">Data de nascimento (DDMMAAAA)</label>
+            <input id="nasc" placeholder="Ex.: 17031982" maxlength="8" />
+          </div>
+          <div>
+            <label for="tipo">Tipo sanguíneo</label>
+            <input id="tipo" placeholder="Ex.: A+" />
+          </div>
+        </div>
+        <div>
+          <label for="alergias">Alergias</label>
+          <input id="alergias" placeholder="Ex.: Nenhuma / Amoxicilina / Mariscos..." />
+        </div>
+        <div>
+          <label for="cond">Condições clínicas (doenças crônicas)</label>
+          <input id="cond" placeholder="Ex.: Asma, Hipertensão... (ou Nenhuma)" />
+        </div>
+        <div>
+          <label for="meds">Medicamentos em uso</label>
+          <input id="meds" placeholder="Ex.: Insulina / Nenhum" />
+        </div>
+        <div>
+          <label for="contato">Contato de emergência</label>
+          <input id="contato" placeholder="Ex.: Thiago – (41) 99768-2727" />
+        </div>
+        <div>
+          <label for="obs">Observações</label>
+          <textarea id="obs" placeholder="Ex.: Leitor de glicose no braço direito, uso de marca-passo..."></textarea>
+        </div>
+        <div class="row">
+          <div>
+            <label for="ident">Identificador (auto)</label>
+            <input id="ident" placeholder="será gerado automaticamente" readonly />
+          </div>
+          <div>
+            <label>&nbsp;</label>
+            <button onclick="gerarIdent()">Gerar identificador</button>
+          </div>
+        </div>
+        <div class="actions">
+          <button onclick="salvar()">Salvar meus dados</button>
+          <button class="btn-secondary" onclick="go('home')">Voltar</button>
+        </div>
+        <p class="muted">O identificador é usado para acessar seus dados **sem senha**. Ex.: <b>flavialeticia170382</b>.</p>
+      </div>
+    </section>
+
+    <!-- ACCESS -->
+    <section id="access" class="card hide">
+      <h2>Acessar meus dados</h2>
+      <div class="row">
+        <div>
+          <label for="busca">Digite seu identificador</label>
+          <input id="busca" placeholder="Ex.: flavialeticia170382" />
+        </div>
+        <div>
+          <label>&nbsp;</label>
+          <button onclick="carregar()">Buscar</button>
+        </div>
+      </div>
+      <div id="perfil" class="card hide"></div>
+      <div class="actions">
+        <button class="btn-secondary" onclick="go('home')">Voltar</button>
+      </div>
+    </section>
+
+    <!-- ABOUT -->
+    <section id="about" class="card hide">
+      <h2>Sobre a TAG de Emergência</h2>
+      <p class="muted">A TAG exibe rapidamente <b>Nome, Tipo sanguíneo, Alergias e Contato de emergência</b> para uso em situações críticas. Os dados são salvos no navegador como protótipo (sem senha). Em versões futuras, poderão ser salvos com segurança em nuvem.</p>
+      <div class="actions">
+        <button class="btn-secondary" onclick="go('home')">Voltar</button>
+      </div>
+    </section>
+
+    <!-- RESULT / TAG VIEW -->
+    <section id="ok" class="card hide center">
+      <h2>✅ Dados salvos!</h2>
+      <p class="big">Seu identificador é: <b id="idOk"></b></p>
+      <p class="muted">Guarde este identificador. Use-o para acessar sua TAG sem senha.</p>
+      <div id="tag" class="tag"></div>
+      <div class="actions center">
+        <button onclick="compartilhar()">Compartilhar identificador</button>
+        <button class="btn-secondary" onclick="go('home')">Ir para a tela inicial</button>
+      </div>
+    </section>
+
+    <div class="footer-space"></div>
+  </main>
+
+  <script>
+    // Navegação simples por seções
+    function go(id){
+      for(const sec of document.querySelectorAll('main > section')) sec.classList.add('hide');
+      document.getElementById(id).classList.remove('hide');
+      window.scrollTo({top:0, behavior:'smooth'});
+    }
+    // Gera identificador: nome (sem espaços/acentos) + DDMMAAAA
+    function normalize(str){
+      return (str||'')
+        .toLowerCase()
+        .normalize('NFD').replace(/[\u0300-\u036f]/g,'') // remove acentos
+        .replace(/[^a-z\s]/g,'') // mantém só letras e espaço
+        .replace(/\s+/g,'');
+    }
+    function gerarIdent(){
+      const nome = document.getElementById('nome').value;
+      const nasc = (document.getElementById('nasc').value||'').replace(/\D/g,'');
+      if(!nome || nasc.length!==8){ alert('Preencha Nome e Data (DDMMAAAA) para gerar o identificador.'); return; }
+      const id = normalize(nome)+nasc;
+      document.getElementById('ident').value = id;
+      return id;
+    }
+    // Salvar no localStorage (protótipo sem backend)
+    function salvar(){
+      const nome = document.getElementById('nome').value.trim();
+      const nasc = document.getElementById('nasc').value.trim();
+      const tipo = document.getElementById('tipo').value.trim();
+      const alergias = document.getElementById('alergias').value.trim();
+      const cond = document.getElementById('cond').value.trim();
+      const meds = document.getElementById('meds').value.trim();
+      const contato = document.getElementById('contato').value.trim();
+      const obs = document.getElementById('obs').value.trim();
+      let id = document.getElementById('ident').value.trim() || gerarIdent();
+      if(!id) return;
+
+      const registro = {nome,nasc,tipo,alergias,cond,meds,contato,obs,ts:new Date().toISOString()};
+
+      const db = JSON.parse(localStorage.getItem('careid_db')||'{}');
+      db[id] = registro;
+      localStorage.setItem('careid_db', JSON.stringify(db));
+
+      // feedback
+      document.getElementById('idOk').textContent = id;
+      document.getElementById('tag').innerHTML = renderTAG(registro);
+      go('ok');
+      try { navigator.clipboard.writeText(id); } catch(e){}
+    }
+    // Carregar por identificador
+    function carregar(){
+      const id = (document.getElementById('busca').value||'').trim();
+      if(!id){ alert('Digite seu identificador.'); return; }
+      const db = JSON.parse(localStorage.getItem('careid_db')||'{}');
+      const r = db[id];
+      const box = document.getElementById('perfil');
+      if(!r){
+        box.classList.remove('hide');
+        box.innerHTML = '<p style="color:#8a1e14"><b>Identificador não encontrado neste dispositivo.</b><br><span class="muted">Dica: os dados estão salvos localmente (protótipo). Em breve, salvaremos em nuvem para acesso em qualquer aparelho.</span></p>';
+        return;
+      }
+      box.classList.remove('hide');
+      box.innerHTML = `
+        <h3>${r.nome}</h3>
+        <div class="row">
+          <div class="card" style="flex:1 1 280px">
+            <p><b>Data de nascimento:</b> ${fmtNasc(r.nasc)}</p>
+            <p><b>Tipo sanguíneo:</b> ${r.tipo||'-'}</p>
+            <p><b>Alergias:</b> ${r.alergias||'-'}</p>
+            <p><b>Condições:</b> ${r.cond||'-'}</p>
+            <p><b>Medicamentos:</b> ${r.meds||'-'}</p>
+            <p><b>Contato:</b> ${r.contato||'-'}</p>
+            <p><b>Observações:</b> ${r.obs||'-'}</p>
+          </div>
+          <div class="card" style="flex:1 1 220px">
+            <h4>TAG de Emergência</h4>
+            ${renderTAG(r)}
+          </div>
+        </div>
+        <div class="actions">
+          <button class="btn-secondary" onclick="window.print()">Imprimir</button>
+        </div>
+      `;
+    }
+    function renderTAG(r){
+      return `
+        <div class="tag">
+          <div><b>👤 Nome:</b> ${r.nome||'-'}</div>
+          <div><b>🩸 Tipo:</b> ${r.tipo||'-'}</div>
+          <div><b>⚠️ Alergias:</b> ${r.alergias||'-'}</div>
+          <div><b>📞 Contato:</b> ${r.contato||'-'}</div>
+          <div class="muted" style="margin-top:6px">Uso exclusivo para emergências médicas.</div>
+        </div>
+      `;
+    }
+    function fmtNasc(n){
+      const s=(n||'').replace(/\D/g,'');
+      if(s.length!==8) return n||'-';
+      return s.slice(0,2)+'/'+s.slice(2,4)+'/'+s.slice(4);
+    }
+    // Compartilhar identificador
+    function compartilhar(){
+      const id = document.getElementById('idOk').textContent;
+      const msg = `Meu identificador CareID: ${id}`;
+      if(navigator.share){
+        navigator.share({title:'CareID', text:msg});
+      }else{
+        alert(msg + '\\n(Copiado para a área de transferência)');
+        try { navigator.clipboard.writeText(msg); } catch(e){}
+      }
+    }
+    // Roteamento simples por hash (#form, #access, #about)
+    function route(){
+      const h=(location.hash||'#home').replace('#','');
+      const known=['home','form','access','about','ok'];
+      go(known.includes(h)?h:'home');
+    }
+    window.addEventListener('hashchange',route);
+    route();
+  </script>
 </body>
 </html>
